@@ -22,6 +22,9 @@ class CalculatorViewController: UIViewController {
     
     
     var tip = 0.0
+    var splitNumberOfPeople = 0.0
+    var amountPaidByEachPerson = "0.00"
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +39,7 @@ class CalculatorViewController: UIViewController {
         twentyPctButton.isSelected = false
          
          sender.isSelected = true
+        billTextField.endEditing(true)
         
         let buttonPressedByUser = sender.currentTitle ?? "0"
         let buttonSelectedWithoutLastCharacter = buttonPressedByUser.dropLast()
@@ -49,8 +53,14 @@ class CalculatorViewController: UIViewController {
     
     @IBAction func calculatePressed(_ sender: UIButton) {
         
-       print(tip)
-        
+        let totalBill = billTextField.text!
+        let totalBillInDouble = Double(totalBill)!
+        let totalWithTip = totalBillInDouble * tip
+        let totalPlusTip = totalWithTip + totalBillInDouble
+        let SplitAmount = totalPlusTip / splitNumberOfPeople
+        let splitAmountToTwoDecimal = String(format: "%.2f", SplitAmount)
+        amountPaidByEachPerson = splitAmountToTwoDecimal
+        print(amountPaidByEachPerson)
         
         
     }
@@ -58,6 +68,8 @@ class CalculatorViewController: UIViewController {
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
         
         splitNumberLabel.text = String(format: "%0.f", sender.value)
+        let splitNumber =  splitNumberLabel.text!
+        splitNumberOfPeople = Double(splitNumber)!
         
     }
     
