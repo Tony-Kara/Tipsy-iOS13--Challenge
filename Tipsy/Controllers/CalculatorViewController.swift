@@ -9,6 +9,8 @@
 import UIKit
 
 class CalculatorViewController: UIViewController {
+    
+    var tipBrain = TipBrain()
 
     @IBOutlet weak var billTextField: UITextField!
     
@@ -21,9 +23,7 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var splitNumberLabel: UILabel!
     
     
-    var tip = 0.0
-    var splitNumberOfPeople = 0.0
-    var amountPaidByEachPerson = "0.00"
+
     
     
     override func viewDidLoad() {
@@ -39,40 +39,25 @@ class CalculatorViewController: UIViewController {
         twentyPctButton.isSelected = false
          
          sender.isSelected = true
-        billTextField.endEditing(true)
+         billTextField.endEditing(true)
         
-        let buttonPressedByUser = sender.currentTitle ?? "0"
-        let buttonSelectedWithoutLastCharacter = buttonPressedByUser.dropLast()
-        let buttonSelectedToDouble = Double(buttonSelectedWithoutLastCharacter)!
-        tip = buttonSelectedToDouble / 100
-      
-        
-        
+        tipBrain.calculateTip(sender.currentTitle!)
+ 
     }
     
     
     @IBAction func calculatePressed(_ sender: UIButton) {
         
-        let totalBill = billTextField.text!
-        let totalBillInDouble = Double(totalBill)!
-        let totalWithTip = totalBillInDouble * tip
-        let totalPlusTip = totalWithTip + totalBillInDouble
-        let SplitAmount = totalPlusTip / splitNumberOfPeople
-        let splitAmountToTwoDecimal = String(format: "%.2f", SplitAmount)
-        amountPaidByEachPerson = splitAmountToTwoDecimal
-        print(amountPaidByEachPerson)
-        
-        
+        tipBrain.calculateBillsPerPerson(billTextField.text!)
         self.performSegue(withIdentifier: "tony", sender: self)
-        
-        
+       
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
         
         splitNumberLabel.text = String(format: "%0.f", sender.value)
         let splitNumber =  splitNumberLabel.text!
-        splitNumberOfPeople = Double(splitNumber)!
+        tipBrain.calculateSplit(splitNumber)
         
     }
     
@@ -82,9 +67,9 @@ class CalculatorViewController: UIViewController {
         if segue.identifier == "tony" {
         
         let destinationVC = segue.destination as! ResultsViewController
-        destinationVC.amountToBePaid = amountPaidByEachPerson
-        destinationVC.splitNumber = Int(splitNumberOfPeople)
-        destinationVC.tipPercentage = Int(tip * 100)
+            destinationVC.amountToBePaid = tipBrain.billsPerPerson()
+            destinationVC.splitNumber = tipBrain.splitNumber()
+            destinationVC.tipPercentage = tipBrain.tipPercentage()
             
         }
         
