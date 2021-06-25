@@ -31,6 +31,8 @@ class ResultsViewController: UIViewController {
     }
     
     @IBAction func reclaculatePressed(_ sender: UIButton) {
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
     /*
