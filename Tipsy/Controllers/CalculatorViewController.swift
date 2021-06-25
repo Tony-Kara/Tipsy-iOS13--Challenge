@@ -63,6 +63,9 @@ class CalculatorViewController: UIViewController {
         print(amountPaidByEachPerson)
         
         
+        self.performSegue(withIdentifier: "tony", sender: self)
+        
+        
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
@@ -74,6 +77,18 @@ class CalculatorViewController: UIViewController {
     }
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "tony" {
+        
+        let destinationVC = segue.destination as! ResultsViewController
+        destinationVC.amountToBePaid = amountPaidByEachPerson
+        destinationVC.splitNumber = Int(splitNumberOfPeople)
+        destinationVC.tipPercentage = Int(tip * 100)
+            
+        }
+        
+    }
     
     
     

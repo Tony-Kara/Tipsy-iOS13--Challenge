@@ -14,10 +14,20 @@ class ResultsViewController: UIViewController {
     
     @IBOutlet weak var settingsLabel: UILabel!
     
+    
+    var amountToBePaid: String?
+    var splitNumber: Int?
+    var tipPercentage: Int?
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    
+        totalsLabel.text = amountToBePaid
+        settingsLabel.text = "Split between \(splitNumber!) people, with \(tipPercentage!)% tip."
+        
+        
     }
     
     @IBAction func reclaculatePressed(_ sender: UIButton) {
